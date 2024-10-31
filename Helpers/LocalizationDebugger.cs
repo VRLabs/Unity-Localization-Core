@@ -25,7 +25,7 @@ namespace DreadScripts.Localization
 					if (handler != null)
 					{
 						EditorGUILayout.Space();
-						handler.hasSelectedALanguage = EditorGUILayout.Toggle("Has Type Language", handler.hasSelectedALanguage);
+						handler.hasTypePreferredLanguage = EditorGUILayout.Toggle("Has Type Language", handler.hasTypePreferredLanguage);
 						using (new GUILayout.HorizontalScope())
 						{
 							handler.DrawField(true);

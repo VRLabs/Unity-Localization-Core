@@ -21,7 +21,10 @@ namespace DreadScripts.Localization
         public T selectedLanguage;
         public int selectedLanguageIndex;
 
-        public bool hasSelectedALanguage;
+        public bool hasAnyPreferredLanguage {get; internal set;}
+        public bool hasTypePreferredLanguage {get; internal set;}
+        public bool hasGloballyPreferredLanguage {get; internal set;}
+        
         private bool shouldRefresh;
         private bool loadFromAssets;
         private Vector2 scroll;
@@ -35,7 +38,7 @@ namespace DreadScripts.Localization
         public static LocalizationHandler<T> LoadLanguagesFromAssets(params T[] additionalLanguages) => new LocalizationHandler<T>(true, "English", additionalLanguages);
         public static LocalizationHandler<T> LoadLanguagesFromAssets(string defaultLanguageName, params T[] additionalLanguages) => new LocalizationHandler<T>(true, defaultLanguageName, additionalLanguages);
         
-        private LocalizationHandler(bool loadFromAssets, string defaultLanguageName, params T[] builtinLanguages)
+        public LocalizationHandler(bool loadFromAssets, string defaultLanguageName, params T[] builtinLanguages)
         {
             this.loadFromAssets = loadFromAssets;
             this.builtinLanguages = builtinLanguages ?? Array.Empty<T>();
@@ -80,15 +83,26 @@ namespace DreadScripts.Localization
             //Tries to load product specific lannguage first, then preferred language, then base language
             
             T map = null;
-            var prefKey = $"{LocalizationConstants.LANGUAGE_KEY_PREFIX}{type.Name}";
+            var prefKey = typePreferredLanguagePrefKey;
             if (EditorPrefs.HasKey(prefKey))
             {
                 map = allLanguages.FirstOrDefault(m => m.languageName == EditorPrefs.GetString(prefKey));
-                if (map != null) hasSelectedALanguage = true;
+                if (map != null)
+                {
+                    hasAnyPreferredLanguage = true;
+                    hasTypePreferredLanguage = true;
+                }
             }
-            
-            if (map == null && EditorPrefs.HasKey(LocalizationConstants.PREFERRED_LANGUAGE_KEY)) 
+
+            if (map == null && EditorPrefs.HasKey(LocalizationConstants.PREFERRED_LANGUAGE_KEY))
+            {
                 map = allLanguages.FirstOrDefault(m => m.languageName == EditorPrefs.GetString(LocalizationConstants.PREFERRED_LANGUAGE_KEY));
+                if (map != null)
+                {
+                    hasAnyPreferredLanguage = true;
+                    hasGloballyPreferredLanguage = true;
+                }
+            }
             
             if (map == null) 
                 map = allLanguages.FirstOrDefault(m => m.languageName == defaultLanguageName);
@@ -341,7 +355,7 @@ namespace DreadScripts.Localization
         public void SetTypePrefferedLanguage(string languageName)
         {
             EditorPrefs.SetString(typePreferredLanguagePrefKey, languageName);
-            hasSelectedALanguage = true;
+            hasTypePreferredLanguage = true;
         }
         #endregion
     }
