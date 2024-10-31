@@ -1,5 +1,5 @@
 {
-    "name": "com.dreadscripts.localization.main",
+    "name": "com.dreadscripts.localization.core",
     "references": [],
     "includePlatforms": [
         "Editor"
