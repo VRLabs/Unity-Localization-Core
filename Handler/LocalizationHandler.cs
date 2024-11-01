@@ -32,12 +32,13 @@ namespace DreadScripts.Localization
         public string typePreferredLanguagePrefKey => $"{LocalizationConstants.LANGUAGE_KEY_PREFIX}{typeof(T).Name}";
   
         #region Instancing
+        /// <param name="loadFromAssets">Whether to load localization files of this handler's type from the assets.</param>
+        /// <param name="builtinLanguages">Additional localization scriptables to load.</param>
+        public LocalizationHandler(bool loadFromAssets = true, params T[] builtinLanguages) : this(loadFromAssets, "English", builtinLanguages){}
 
-        public static LocalizationHandler<T> CreateFromLanguages(params T[] languages) => new LocalizationHandler<T>(false, "English", languages);
-        public static LocalizationHandler<T> CreateFromLanguages(string defaultLanguageName, params T[] languages) => new LocalizationHandler<T>(false, defaultLanguageName, languages);
-        public static LocalizationHandler<T> LoadLanguagesFromAssets(params T[] additionalLanguages) => new LocalizationHandler<T>(true, "English", additionalLanguages);
-        public static LocalizationHandler<T> LoadLanguagesFromAssets(string defaultLanguageName, params T[] additionalLanguages) => new LocalizationHandler<T>(true, defaultLanguageName, additionalLanguages);
-        
+        /// <param name="loadFromAssets">Whether to load localization files of this handler's type from the assets.</param>
+        /// <param name="defaultLanguageName">The default language to load if no preferred language can be found.</param>
+        /// <param name="builtinLanguages">Additional localization scriptables to load.</param>
         public LocalizationHandler(bool loadFromAssets, string defaultLanguageName, params T[] builtinLanguages)
         {
             this.loadFromAssets = loadFromAssets;
@@ -198,6 +199,10 @@ namespace DreadScripts.Localization
             selectedLanguage = map;
             if (setAsTypePreferred) 
                 SetCurrentMapAsTypePrefferedLanguage();
+            
+            if (!EditorPrefs.HasKey(LocalizationConstants.PREFERRED_LANGUAGE_KEY)) 
+                SetCurrentMapAsGlobalPrefferedLanguage();
+
             RefreshLanguageOptions();
             if (map != null) selectedLanguageIndex = Array.FindIndex(languageOptions, l => l == map);
             if (changed) onLanguageChanged?.Invoke();
@@ -216,13 +221,10 @@ namespace DreadScripts.Localization
         #endregion
 
         #region GUI
-
-        /// <summary>Draws the language selection field. </summary>
-        public void DrawField() => DrawField(false);
         
         /// <summary>Draws the language selection field. </summary>
         /// <param name="drawWithIcon">Draw a globe icon next to the text</param>
-        public void DrawField(bool drawWithIcon)
+        public void DrawField(bool drawWithIcon = false)
         {
             string label = GetLanguageWordTranslation(selectedLanguage.languageName ?? "English");
             GUIContent content = new GUIContent(label);
@@ -238,14 +240,8 @@ namespace DreadScripts.Localization
             if (drawWithIcon) content = new GUIContent(content) {image = globeIcon.image};
             EditorGUI.BeginChangeCheck();
             selectedLanguageIndex = EditorGUILayout.Popup(content, selectedLanguageIndex, languageOptionsNames);
-            if (EditorGUI.EndChangeCheck())
-            {
-                SetLanguage(languageOptions[selectedLanguageIndex]);
-                
-                if (!EditorPrefs.HasKey(LocalizationConstants.PREFERRED_LANGUAGE_KEY)) 
-                    EditorPrefs.SetString(LocalizationConstants.PREFERRED_LANGUAGE_KEY, selectedLanguage.languageName);
-                
-            }
+            if (EditorGUI.EndChangeCheck()) SetLanguage(languageOptions[selectedLanguageIndex]);
+            
 
             var dropdownRect = GUILayoutUtility.GetLastRect();
             DoLanguageContextEvent(dropdownRect);
@@ -355,6 +351,7 @@ namespace DreadScripts.Localization
         public void SetTypePrefferedLanguage(string languageName)
         {
             EditorPrefs.SetString(typePreferredLanguagePrefKey, languageName);
+            hasAnyPreferredLanguage = true;
             hasTypePreferredLanguage = true;
         }
         #endregion
