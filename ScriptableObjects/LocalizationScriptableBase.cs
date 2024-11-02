@@ -29,8 +29,8 @@ namespace DreadScripts.Localization
     [Serializable]
     public class LocalizedContent
     {
-        public string keyName;
-        public MiniContent content;
+        [SerializeField] public string keyName;
+        [SerializeField] public MiniContent content;
 
         public LocalizedContent(string keyName, MiniContent content)
         {
@@ -42,8 +42,8 @@ namespace DreadScripts.Localization
     [Serializable]
     public class MiniContent
     {
-        public string text;
-        public string tooltip;
+        [SerializeField] public string text;
+        [SerializeField] public string tooltip;
         public MiniContent(string text)
         {
             this.text = text;
