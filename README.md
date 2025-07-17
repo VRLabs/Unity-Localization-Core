@@ -14,7 +14,7 @@ Note: this fork goes against Dreadrith's, the Original Author, wishes. Is is how
 
 A framework allowing for easy Localization of scripts in Unity.
 
-[TODO ADD GIF]
+![Preview](https://github.com/user-attachments/assets/3017f491-9aca-435e-8d4f-247a8d557dd9)
 
 ### ⬇️ [Download Latest Version](https://github.com/VRLabs/Unity-Localization-Core/releases/latest)
 
