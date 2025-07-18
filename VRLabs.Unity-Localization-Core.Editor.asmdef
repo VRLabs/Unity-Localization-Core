@@ -1,5 +1,6 @@
 {
-    "name": "com.dreadscripts.localization.core",
+    "name": "VRLabs.Unity-Localization-Core.Editor",
+    "rootNamespace": "",
     "references": [],
     "includePlatforms": [
         "Editor"
