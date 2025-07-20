@@ -4,8 +4,8 @@ Note: this fork goes against Dreadrith's, the Original Author, wishes. Is is how
 
 # Unity-Localization-Core
 
-[![Generic badge](https://img.shields.io/github/downloads/VRLabs/Unity-Localiation-Core/total?label=Downloads)](https://github.com/VRLabs/Unity-Localiation-Core/releases/latest)
-[![Generic badge](https://img.shields.io/badge/License-MIT-informational.svg)](https://github.com/VRLabs/Unity-Localiation-Core/blob/main/LICENSE)
+[![Generic badge](https://img.shields.io/github/downloads/VRLabs/Unity-Localization-Core/total?label=Downloads)](https://github.com/VRLabs/Unity-Localization-Core/releases/latest)
+[![Generic badge](https://img.shields.io/badge/License-MIT-informational.svg)](https://github.com/VRLabs/Unity-Localization-Core/blob/main/LICENSE)
 [![Generic badge](https://img.shields.io/badge/Unity-2019.4.31f1-lightblue.svg)](https://unity3d.com/unity/whats-new/2019.4.31)
 [![Generic badge](https://img.shields.io/badge/SDK-AvatarSDK3-lightblue.svg)](https://vrchat.com/home/download)
 
@@ -18,7 +18,7 @@ A framework allowing for easy Localization of scripts in Unity.
 
 ### ⬇️ [Download Latest Version](https://github.com/VRLabs/Unity-Localization-Core/releases/latest)
 
-### 📦 [Add to VRChat Creator Companion](https://vrlabs.dev/packages?package=dev.vrlabs.unity-localiation-core)
+### 📦 [Add to VRChat Creator Companion](https://vrlabs.dev/packages?package=dev.vrlabs.Unity-Localization-Core)
 
 </div>
 
